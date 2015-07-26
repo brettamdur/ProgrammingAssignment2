@@ -9,15 +9,15 @@
 ## makeCacheMatrix (below) is a closure.  It takes a matrix as an argument. 
 ## It returns a list of functions, but also, as a closure, remains resident
 ## in memory after it executes, so that its functions can access the propoerties of the matrix 
-## originally passed to it.  makeCacheMatrix's subordinate functions can also access the values of 
-## variables (like, in this case, matrixInverse) that are free variables in the subordinate 
-## functions (i.e. the child environment) but local variables within makeCacheMatrix itself (i.e. 
-## the parent environment).
+## originally passed to it.  makeCacheMatrix's enclosed functions can also access the values of 
+## variables in their parent environment.  The double arrow operator (<<-) within the enclosed functions
+## tells the enclosed function to use the binding present for that variable in the parent
+## environment.
 
 makeCacheMatrix <- function(x = matrix()) {
 	# When makeCacheMatrix is first called, it sets the inverse to null.  Subsequent calls to 
-	# setInverse can set the inverse of the matrix.  Note that the inversion does not happen
-	# within any of the functions inside makeCacheMatrix.  
+	# setInverse -- possibly via the setInverse function -- set the inverse of the matrix.  
+	# Note that the inversion does not happen within any of the functions inside makeCacheMatrix.  
 	matrixInverse <- NULL 			
 	setMatrix <- function(y) {			
 		x <<- y  			
